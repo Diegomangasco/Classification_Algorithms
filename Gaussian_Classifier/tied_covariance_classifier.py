@@ -63,6 +63,7 @@ def main():
 
     # Tied covariance matrix
     covariance_tied = covariance_matrix1 + covariance_matrix2 + covariance_matrix3
+    covariance_tied = covariance_tied/3
 
     # Calculate the likelihood for all the test set with the mean and covariance of each class
     S = wrapper_logpdf(DTE, class_mean1, covariance_tied)
@@ -107,6 +108,7 @@ def main2():
 
     # Tied covariance matrix
     covariance_tied = covariance_matrix1 + covariance_matrix2 + covariance_matrix3
+    covariance_tied = covariance_tied/3
 
     S = wrapper_logpdf_with_log_densities(DTE, class_mean1, covariance_tied)
     S = numpy.concatenate((S, wrapper_logpdf_with_log_densities(DTE, class_mean2, covariance_tied)), axis=1)
