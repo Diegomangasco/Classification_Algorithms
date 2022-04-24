@@ -64,6 +64,7 @@ def main():
     # Tied covariance matrix
     covariance_tied = covariance_matrix1 + covariance_matrix2 + covariance_matrix3
     covariance_tied = covariance_tied/3
+    print(covariance_tied)
 
     # Calculate the likelihood for all the test set with the mean and covariance of each class
     S = wrapper_logpdf(DTE, class_mean1, covariance_tied)
