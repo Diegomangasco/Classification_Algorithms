@@ -77,7 +77,7 @@ def main():
     
     S_sum = S_joint.sum(0) # For each sample we sum the Joint distribution for the three classes (sum the rows) 
     S_marginal = numpy.reshape(S_sum, (1, S_sum.shape[0]))  #Reshape is needed because the sum operator puts the results in a column array
-    S_post = S_joint/S_marginal # Posterior probability -> Joint distribution over 
+    S_post = S_joint/S_marginal # Posterior probability -> Joint distribution over Marginal distribution
     #For each column (sample) we search the maximum probability that indicates the class predicted 
     # (classes are the rows of the matrix)
     Predicted_labels = numpy.argmax(S_post, axis=0) 
