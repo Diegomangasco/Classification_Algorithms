@@ -51,9 +51,7 @@ def main():
     K_fold_set = numpy.array(K_fold_set)
     K_fold_labels = numpy.array(L)
     K_fold_labels = numpy.split(K_fold_labels, K)
-    t = 0
-    selector = [x for x in range(0, K) if x!=t]
-
+    
     accuracy_list = []
     error_list = []
     
@@ -61,7 +59,7 @@ def main():
     for i in range(0, K):
         K_validation_set = K_fold_set[i]
         K_validation_label_set = K_fold_labels[i]
-        t = i
+        selector = [x for x in range(0, K) if x!=i]
         K_training_set = K_fold_set[selector]
         K_training_set_def = K_training_set[0]
         K_training_labels_set_def = K_fold_labels[0]
