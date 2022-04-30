@@ -32,12 +32,6 @@ def wrapper_logpdf(X, mu, C):
     return_value = numpy.exp(return_value)
     return numpy.reshape(return_value, (return_value.size, 1))
 
-def wrapper_logpdf_with_log_densities(X, mu, C):
-    return_value = []
-    for i in range(0, X.shape[1]):
-        return_value.append(logpdf_GAU_ND(X[:, i], mu, C))
-    return numpy.reshape(return_value, (len(return_value), 1))
-
 def main():
     D, L = load_iris()
     
