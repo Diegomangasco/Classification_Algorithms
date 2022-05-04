@@ -23,7 +23,7 @@ def calculate_parameters(class_number, dataset, categories):
     D = dataset[:, categories==class_number]
     mean = D.mean(1)
     covariance = numpy.dot((D-mean.reshape(mean.size, 1)), (D-mean.reshape(mean.size, 1)).T)/D.shape[1]
-    covariance_diag = covariance*numpy.eye(covariance.shape[1], M=covariance.shape[0])
+    covariance_diag = covariance*numpy.eye(covariance.shape[0])
     # Use only diagonal values since we are taking the Naive Bayes assumption
     # Nc is not the number of classes, but the number of samples for a specific class!
     return numpy.array(mean), numpy.array(covariance_diag)
