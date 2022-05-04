@@ -3,6 +3,9 @@ import scipy.special
 import sklearn.datasets
 import numpy
 
+def class_columns(class_identifier, training_data, training_labels):
+    return training_data[:, training_labels == class_identifier].shape[1]
+
 def load_iris():
     D, L = sklearn.datasets.load_iris()['data'].T, sklearn.datasets.load_iris()['target']
     return D, L
@@ -62,14 +65,16 @@ def main():
     class_mean3, covariance_matrix3 = calculate_parameters(2, DTR, LTR)
 
     # Tied covariance matrix
-    covariance_tied = covariance_matrix1 + covariance_matrix2 + covariance_matrix3
-    covariance_tied = covariance_tied/3
-    print(covariance_tied)
+    N_1 = class_columns(0, DTR, LTR)
+    N_2 = class_columns(1, DTR, LTR)
+    N_3 = class_columns(2, DTR, LTR)
+    tied_covariance = (1/DTR.shape[1])*(covariance_matrix1*N_1 + covariance_matrix2*N2 + covariance_matrix3*N3)
+    print(tied_covariance)
 
     # Calculate the likelihood for all the test set with the mean and covariance of each class
-    S = wrapper_logpdf(DTE, class_mean1, covariance_tied)
-    S = numpy.concatenate((S, wrapper_logpdf(DTE, class_mean2, covariance_tied)), axis=1)
-    S = numpy.concatenate((S, wrapper_logpdf(DTE, class_mean3, covariance_tied)), axis=1)
+    S = wrapper_logpdf(DTE, class_mean1, tied_covariance)
+    S = numpy.concatenate((S, wrapper_logpdf(DTE, class_mean2, tied_covariance)), axis=1)
+    S = numpy.concatenate((S, wrapper_logpdf(DTE, class_mean3, tied_covariance)), axis=1)
     S = S.T
 
     Pc = 1/3    # Default value for prior probability of a class
@@ -108,12 +113,16 @@ def main2():
     class_mean3, covariance_matrix3 = calculate_parameters(2, DTR, LTR)
 
     # Tied covariance matrix
-    covariance_tied = covariance_matrix1 + covariance_matrix2 + covariance_matrix3
-    covariance_tied = covariance_tied/3
+    # Tied covariance matrix
+    N_1 = class_columns(0, DTR, LTR)
+    N_2 = class_columns(1, DTR, LTR)
+    N_3 = class_columns(2, DTR, LTR)
+    tied_covariance = (1/DTR.shape[1])*(covariance_matrix1*N_1 + covariance_matrix2*N2 + covariance_matrix3*N3)
+    print(tied_covariance)
 
-    S = wrapper_logpdf_with_log_densities(DTE, class_mean1, covariance_tied)
-    S = numpy.concatenate((S, wrapper_logpdf_with_log_densities(DTE, class_mean2, covariance_tied)), axis=1)
-    S = numpy.concatenate((S, wrapper_logpdf_with_log_densities(DTE, class_mean3, covariance_tied)), axis=1)
+    S = wrapper_logpdf_with_log_densities(DTE, class_mean1, tied_covariance)
+    S = numpy.concatenate((S, wrapper_logpdf_with_log_densities(DTE, class_mean2, tied_covariance)), axis=1)
+    S = numpy.concatenate((S, wrapper_logpdf_with_log_densities(DTE, class_mean3, tied_covariance)), axis=1)
     S = S.T
 
     Pc = numpy.log(1/3)
